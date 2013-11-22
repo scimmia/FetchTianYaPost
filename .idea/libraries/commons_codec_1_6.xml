@@ -1,0 +1,18 @@
+<component name="libraryTable">
+  <library name="commons-codec-1.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/fluent-hc-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-cache-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpmime-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/jsoup-1.7.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/log4j-1.2.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/mysql-connector-java-5.1.27-bin.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
