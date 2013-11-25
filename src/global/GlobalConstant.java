@@ -43,7 +43,9 @@ public interface GlobalConstant {
     int minReplyCount = 500;
     int minReplyProportion = 8;
     int saveEveryCount = 20;
-
+    String firstUrl = "http://bbs.tianya.cn/list-%s-1.shtml";
+    String normalUrl = "http://bbs.tianya.cn/list.jsp?item=%s&nextid=%s";
+    String boardHeader = "http://bbs.tianya.cn";
     //回复
     int saveReplyEveryCount = 2000;
     String vu = "84853088886";

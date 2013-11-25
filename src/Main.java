@@ -1,4 +1,5 @@
 import fetchreply.FetchReplyThread;
+import fetchreply.FetchTopicThread;
 import fetchtopic.FetchBoardHtmlThread;
 import fetchtopic.ParseBoardHtmlThread;
 import fetchtopic.SaveTopicThread;
@@ -21,7 +22,7 @@ public class Main {
         switch (selectIndex){
             case 1:
             {
-                fetchTopic();
+                fetchTopic1125();
                 break;
             }
             case 2:
@@ -82,5 +83,14 @@ public class Main {
         if (m==1){
             GlobalUtil.fetching = false;
         }
+    }
+    public static void fetchTopic1125(){
+        String item = GlobalUtil.getSelectedItem();
+        System.out.println("请输入开始id");
+        String id = SavitchIn.readLine();
+
+        GlobalUtil.initLog4j("Fetching-" + item);
+        new Thread(new FetchTopicThread(item,id)).start();
+        waitForExit();
     }
 }
