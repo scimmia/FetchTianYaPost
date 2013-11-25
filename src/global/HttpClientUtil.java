@@ -33,6 +33,8 @@ public class HttpClientUtil implements GlobalConstant{
         httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
         //以get方式请求该URL
         HttpGet httpget = new HttpGet(url);
+        httpget.getParams().setIntParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30 * 1000);
+        httpget.getParams().setIntParameter(CoreConnectionPNames.SO_TIMEOUT, 30 * 1000);
         try {
             //得到responce对象
             HttpResponse responce = httpClient.execute(httpget);
@@ -45,12 +47,14 @@ public class HttpClientUtil implements GlobalConstant{
                 if (entity!=null) {
                     //获得html源代码
                     html = EntityUtils.toString(entity);
+                    EntityUtils.consume(entity);
                 }
             }
         } catch (Exception e) {
             logger.error("访问【"+url+"】出现异常!");
             logger.error(e);
         } finally {
+            httpget.abort();
             httpClient.getConnectionManager().shutdown();
         }
         return html;
