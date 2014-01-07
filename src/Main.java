@@ -38,6 +38,11 @@ public class Main {
                 runIt();
                 break;
             }
+            case 4:
+            {
+                fetchSearchTop();
+                break;
+            }
             case 0:
             {
                 break;
@@ -91,6 +96,17 @@ public class Main {
 
         GlobalUtil.initLog4j("Fetching-" + item);
         new Thread(new FetchTopicThread(item,id)).start();
+        waitForExit();
+    }
+
+    public static void fetchSearchTop(){
+
+        System.out.println("请输入开始id,回车结束");
+        String tag = SavitchIn.readLine();
+        System.out.println("请输入开始page,回车结束");
+        int startPage = SavitchIn.readInt();
+        GlobalUtil.initLog4j("Fetching-" + tag);
+        new Thread(new versiona.FetchTopicThread(tag,startPage)).start();
         waitForExit();
     }
 }
