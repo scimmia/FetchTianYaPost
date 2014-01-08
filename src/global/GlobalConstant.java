@@ -39,6 +39,7 @@ public interface GlobalConstant {
     String columnName_Topic_title = "title";
     String columnName_Topic_clickcount = "clickCount";
     String columnName_Topic_replycount = "commentCount";
+    String ColumnName_Topic_initiateTime = "initiateTime";
     String columnName_Topic_state = "state";
     String columnName_Topic_type = "type";
 

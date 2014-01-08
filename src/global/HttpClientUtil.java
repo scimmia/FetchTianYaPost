@@ -59,5 +59,15 @@ public class HttpClientUtil implements GlobalConstant{
         }
         return html;
     }
-
+    public static String getHtmlByUrl(String url,int retryCount){
+        String res = null;
+        while (retryCount > 0 && res == null){
+            retryCount--;
+            res = getHtmlByUrl(url);
+            if (res != null){
+                return res;
+            }
+        }
+        return res;
+    }
 }

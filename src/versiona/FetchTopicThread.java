@@ -24,7 +24,7 @@ import java.util.HashSet;
 public class FetchTopicThread implements Runnable, GlobalConstant {
     Logger logger;
     String item;
-    int maxPage = 75;
+    int maxPage = 76;
 
     String baseURL = "http://search.tianya.cn/bbs?q=%s&pn=%d&f=3&s=10";
     int startPage;
@@ -137,7 +137,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 int replyCount = Integer.parseInt(tr.select("span").last().text());
                 logger.info(url+'\t'+title);
 //                map.put(url.replace("http://bbs.tianya.cn",""),title);
-                set.add(new TopicStruct(url.replace("http://bbs.tianya.cn",""),title,topicType,replyCount));
+                set.add(new TopicStruct(url.replace("-1.shtml","-%d.shtml"),title,topicType,replyCount));
             }
         }
     }

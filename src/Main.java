@@ -9,6 +9,7 @@ import global.SavitchIn;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Main {
 
@@ -20,7 +21,7 @@ public class Main {
     public static void runIt(){
         System.out.println("请输入抓取类型序号: " +
                 "1 抓主贴 2 抓详情 3 初始化数据库 " +
-                "4 抓搜索主贴" +
+                "4 抓搜索主贴 5 抓搜索回复" +
                 "0 退出 \n抓取开始后输入1回车可结束");
         int selectIndex = SavitchIn.readInt();
         switch (selectIndex){
@@ -45,6 +46,11 @@ public class Main {
             case 4:
             {
                 fetchSearchTop();
+                break;
+            }
+            case 5:
+            {
+                fetchSearchReply();
                 break;
             }
             case 0:
@@ -117,6 +123,14 @@ public class Main {
         GlobalUtil.initLog4j("Fetching-" +item);
         System.out.println(tag);
         new Thread(new versiona.FetchTopicThread(item,tag,startPage)).start();
+        waitForExit();
+    }
+
+    private static void fetchSearchReply() {
+        int choise = GlobalUtil.makeDecision(GlobalConstant.tags);
+        String item = GlobalConstant.tags[choise];
+        GlobalUtil.initLog4j("FetchingReply-" +item);
+        new Thread(new versiona.FetchReplyThread(item)).start();
         waitForExit();
     }
 
