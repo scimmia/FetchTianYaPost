@@ -3,6 +3,7 @@ import fetchreply.FetchTopicThread;
 import fetchtopic.FetchBoardHtmlThread;
 import fetchtopic.ParseBoardHtmlThread;
 import fetchtopic.SaveTopicThread;
+import global.GlobalConstant;
 import global.GlobalUtil;
 import global.SavitchIn;
 
@@ -17,7 +18,10 @@ public class Main {
     }
 
     public static void runIt(){
-        System.out.println("请输入抓取类型序号: 1 抓主贴 2 抓详情 3 初始化数据库 0 退出 \n抓取开始后输入1回车可结束");
+        System.out.println("请输入抓取类型序号: " +
+                "1 抓主贴 2 抓详情 3 初始化数据库 " +
+                "4 抓搜索主贴" +
+                "0 退出 \n抓取开始后输入1回车可结束");
         int selectIndex = SavitchIn.readInt();
         switch (selectIndex){
             case 1:
@@ -100,13 +104,21 @@ public class Main {
     }
 
     public static void fetchSearchTop(){
+        int choise = GlobalUtil.makeDecision(GlobalConstant.tags);
+        String item = GlobalConstant.tags[choise];
+        String[] tagOptions = GlobalUtil.getTagOptions(GlobalConstant.tags[choise]);
+        int choiseB = GlobalUtil.makeDecision(tagOptions);
+        String tag = tagOptions[choiseB];
 
-        System.out.println("请输入开始id,回车结束");
-        String tag = SavitchIn.readLine();
+//        System.out.println("请输入开始id,回车结束");
+//        String tag = SavitchIn.readLineWord();
         System.out.println("请输入开始page,回车结束");
         int startPage = SavitchIn.readInt();
-        GlobalUtil.initLog4j("Fetching-" + tag);
-        new Thread(new versiona.FetchTopicThread(tag,startPage)).start();
+        GlobalUtil.initLog4j("Fetching-" +item);
+        System.out.println(tag);
+        new Thread(new versiona.FetchTopicThread(item,tag,startPage)).start();
         waitForExit();
     }
+
+
 }

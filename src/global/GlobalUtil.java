@@ -71,15 +71,21 @@ public class GlobalUtil implements GlobalConstant {
                 s.addBatch("Create table IF NOT EXISTS " + tableName + "."+tableName_Topic+"(" +
                         columnName_Topic_id+" varchar(40) primary key," +
                         columnName_Topic_title+" varchar(80)," +
+                        "initiateTime datetime,type varchar(10)," +
                         columnName_Topic_clickcount+" int," +
                         columnName_Topic_replycount+" int," +
                         columnName_Topic_state+" int" +
                         ") ENGINE=InnoDB DEFAULT CHARSET=utf8");
+//                s.addBatch("Create table IF NOT EXISTS "+tableName+"."+tableName_Reply+"(" +
+//                        columnName_Reply_id+" varchar(40)," +
+//                        columnName_Reply_floor+" int," +
+//                        columnName_Reply_replytime+" datetime," +
+//                        "primary key ("+columnName_Reply_id+","+columnName_Reply_floor+")" +
+//                        ") ENGINE=InnoDB DEFAULT CHARSET=utf8");
                 s.addBatch("Create table IF NOT EXISTS "+tableName+"."+tableName_Reply+"(" +
-                        columnName_Reply_id+" varchar(40)," +
-                        columnName_Reply_floor+" int," +
-                        columnName_Reply_replytime+" datetime," +
-                        "primary key ("+columnName_Reply_id+","+columnName_Reply_floor+")" +
+                        columnName_Reply_id+" int primary key auto_increment," +
+                        columnName_Reply_floor+" varchar(40)," +
+                        columnName_Reply_replytime+" datetime" +
                         ") ENGINE=InnoDB DEFAULT CHARSET=utf8");
             }
             s.executeBatch();
@@ -116,5 +122,23 @@ public class GlobalUtil implements GlobalConstant {
             e.printStackTrace();
         }
         return conn;
+    }
+
+
+    public static int makeDecision(String[] strings){
+        StringBuilder stringBuilder = new StringBuilder("请输入选择序号并回车:\n");
+        for (int i=0;i<strings.length;i++){
+            stringBuilder.append(i+1).append(' ').append(strings[i]).append('\t');
+        }
+        System.out.println(stringBuilder);
+        return SavitchIn.readInt()-1;
+    }
+
+    public static String[] getTagOptions(String tag){
+        if (tag.equals("jiuye")){
+            return tagOption_jiuye;
+        }else {
+            return tagOption_jiuye;
+        }
     }
 }

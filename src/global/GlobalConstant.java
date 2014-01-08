@@ -1,5 +1,7 @@
 package global;
 
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: ASUS
@@ -19,17 +21,33 @@ public interface GlobalConstant {
     String endDatabaseUrl = "?useUnicode=true&characterEncoding=UTF-8";
     String datebaseHeader = "tianya_";
 
-    String tableName_Topic = "topic";
+//    String tableName_Topic = "topic";
+//    String columnName_Topic_id = "id";
+//    String columnName_Topic_title = "title";
+//    String columnName_Topic_clickcount = "clickcount";
+//    String columnName_Topic_replycount = "replycount";
+//    String columnName_Topic_state = "state";
+
+//    String tableName_Reply = "reply";
+//    String columnName_Reply_id = "id";
+//    String columnName_Reply_floor = "floor";
+//    String columnName_Reply_replytime = "replytime";
+
+    //versiona
+    String tableName_Topic = "initiatePost";
     String columnName_Topic_id = "id";
     String columnName_Topic_title = "title";
-    String columnName_Topic_clickcount = "clickcount";
-    String columnName_Topic_replycount = "replycount";
+    String columnName_Topic_clickcount = "clickCount";
+    String columnName_Topic_replycount = "commentCount";
     String columnName_Topic_state = "state";
+    String columnName_Topic_type = "type";
 
-    String tableName_Reply = "reply";
+    String tableName_Reply = "commentPost";
     String columnName_Reply_id = "id";
-    String columnName_Reply_floor = "floor";
-    String columnName_Reply_replytime = "replytime";
+    String columnName_Reply_floor = "initiatePostId";
+    String columnName_Reply_replytime = "commentTime";
+    //versiona
+
 
     //
     int CONNECTION_TIMEOUT = 15000;
@@ -49,4 +67,8 @@ public interface GlobalConstant {
     //回复
     int saveReplyEveryCount = 2000;
     String vu = "84853088886";
+
+
+    String[] tags = {"jiuye"};
+    String[] tagOption_jiuye = {"就业","找工作","就业啊"};
 }

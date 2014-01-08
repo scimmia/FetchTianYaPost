@@ -10,6 +10,16 @@ public class TopicStruct {
     int replyCount;
     int clickCount;
 
+    public TopicStruct() {
+    }
+
+    public TopicStruct(String id, String title, String topicType, int replyCount) {
+        this.id = id;
+        this.title = title;
+        this.topicType = topicType;
+        this.replyCount = replyCount;
+    }
+
     public String getId() {
         return id;
     }
@@ -48,5 +58,11 @@ public class TopicStruct {
 
     public void setClickCount(int clickCount) {
         this.clickCount = clickCount;
+    }
+
+    @Override
+    public boolean equals(Object st){
+        TopicStruct temp = (TopicStruct) st;
+        return id.equals(temp.getId());
     }
 }
