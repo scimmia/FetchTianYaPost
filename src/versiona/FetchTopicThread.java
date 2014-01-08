@@ -26,7 +26,10 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
     String item;
     int maxPage = 76;
 
-    String baseURL = "http://search.tianya.cn/bbs?q=%s&pn=%d&f=3&s=10";
+    String baseURL =
+//            "http://search.tianya.cn/bbs?q=%s&pn=%d&f=3&s=10"//
+            "http://search.tianya.cn/bbs?q=%s&pn=%d"//默认
+            ;
     int startPage;
     String tag;
     HashSet<TopicStruct> set;
@@ -98,7 +101,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
             for (TopicStruct temp:set){
                 ps.setString(1,temp.getId());
                 ps.setString(2,temp.getTitle());
-                ps.setInt(3,temp.getReplyCount());
+                ps.setInt(3, temp.getReplyCount());
                 ps.setString(4,temp.getTopicType());
                 ps.addBatch();
             }
