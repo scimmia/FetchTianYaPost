@@ -71,5 +71,5 @@ public interface GlobalConstant {
 
 
     String[] tags = {"jiuye"};
-    String[] tagOption_jiuye = {"就业","找工作","就业啊"};
+    String[] tagOption_jiuye = {"就业","找工作","求职"};
 }
