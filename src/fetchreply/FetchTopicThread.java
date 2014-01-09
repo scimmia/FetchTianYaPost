@@ -1,9 +1,6 @@
 package fetchreply;
 
-import global.GlobalConstant;
-import global.GlobalUtil;
-import global.HttpClientUtil;
-import global.PostStruct;
+import global.*;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,6 +10,7 @@ import org.jsoup.select.Elements;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashSet;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,9 +23,11 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
     Logger logger;
     String item;
     String startURL;
+    HashSet<TopicStruct> set;
     public FetchTopicThread(String item,String startURL) {
         this.item = item;
         this.startURL = startURL;
+        set = new HashSet<TopicStruct>();
         logger = Logger.getLogger("FetchTopicThread");
     }
 
@@ -37,24 +37,37 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 +columnName_Topic_id+","
                 +columnName_Topic_title+","
                 +columnName_Topic_clickcount+","
-                +columnName_Topic_replycount
-                +") VALUES(?,?,?,?)";
+                +columnName_Topic_replycount+","
+                +columnName_Topic_idForReply
+                +") VALUES(?,?,?,?,?)";
         PreparedStatement ps = null;
         Connection connection = GlobalUtil.getConnToDatabase(item);
         if (connection == null){
             return;
         }
         try {
-            String nextURL =  this.startURL;
             ps =connection.prepareStatement(insertSql);
-            while (GlobalUtil.fetching){
-                String html = HttpClientUtil.getHtmlByUrl(nextURL);
+            String nextURL =  this.startURL;
+            while (GlobalUtil.fetching && nextURL!=null){
+                String html = HttpClientUtil.getHtmlByUrl(nextURL,3);
                 System.out.println(nextURL);
                 if (html != null){
+                    set.clear();
                     Document doc = Jsoup.parse(html);
                     fetchTopic(doc);
                     System.out.println("------------------------");
                     nextURL =  getNextURl(doc);
+
+                    for (TopicStruct temp:set){
+                        ps.setString(1,temp.getId());
+                        ps.setString(2,temp.getTitle());
+                        ps.setInt(3, temp.getClickCount());
+                        ps.setInt(4, temp.getReplyCount());
+                        ps.setString(5,temp.getIdForReply());
+                        ps.addBatch();
+                    }
+                    ps.executeBatch();
+                    connection.commit();
                 }
             }
         } catch (SQLException e) {
@@ -69,6 +82,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 e.printStackTrace();
             }
         }
+        logger.info(String.format("抓取 %s 结束",item));
     }
 
     private String getNextURl(Document doc) {
@@ -101,10 +115,13 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                         Element href = tds.get(0).select("a[href]").first();
                         String title = href.text();
                         String url = href.attr("href");
+
+                        String idForReply = "http://bbs.tianya.cn"+url.replace("-1.shtml","-%d.shtml");
+                        set.add(new TopicStruct(url,title,replyCount,clickCount,idForReply));
 //                        String before = "/post-free-3722617-1.shtml";
-                        int lastIndex = url.lastIndexOf("-1.shtml");
-                        String id = url.substring(7+this.item.length(),lastIndex);
-                        deal(id, title, replyCount, clickCount);
+//                        int lastIndex = url.lastIndexOf("-1.shtml");
+//                        String id = url.substring(7+this.item.length(),lastIndex);
+//                        deal(url, title, replyCount, clickCount);
                     }
                 }
             }
@@ -114,4 +131,10 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
     private void deal(String id, String title, int replyCount, int clickCount) {
 //        System.out.println(id+'\t'+title+'\t'+replyCount+'\t'+clickCount);
     }
+
+
+    private void saveData() {
+
+    }
+
 }

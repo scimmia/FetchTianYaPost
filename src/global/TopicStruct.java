@@ -21,6 +21,14 @@ public class TopicStruct {
         this.idForReply = idForReply;
     }
 
+    public TopicStruct(String id, String title, int replyCount, int clickCount, String idForReply) {
+        this.id = id;
+        this.title = title;
+        this.replyCount = replyCount;
+        this.clickCount = clickCount;
+        this.idForReply = idForReply;
+    }
+
     public String getIdForReply() {
         return idForReply;
     }

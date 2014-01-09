@@ -64,7 +64,7 @@ public class GlobalUtil implements GlobalConstant {
             if(!conn.isClosed())
                 System.out.println("Succeeded connecting to the Database");
             s = conn.createStatement();
-            for (String item : tags){
+            for (String item : items){
                 String tableName = datebaseHeader+item;
                 s.addBatch("CREATE DATABASE IF NOT EXISTS "+tableName+
                         " default character set utf8");
