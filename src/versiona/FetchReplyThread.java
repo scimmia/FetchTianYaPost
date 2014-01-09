@@ -42,7 +42,6 @@ public class FetchReplyThread implements Runnable, GlobalConstant {
             String deleteSql = "delete from "+tableName_Topic+" where "+columnName_Topic_id+" = ?";
             PreparedStatement deleteWrongId =connection.prepareStatement(deleteSql);
             String updateSql = "update "+tableName_Topic+" set "
-                    +columnName_Topic_id+" = ? ,"
                     +columnName_Topic_clickcount+" = ? ,"
                     +columnName_Topic_replycount+" = ? ,"
                     +ColumnName_Topic_initiateTime+" = ? ,"
@@ -56,14 +55,14 @@ public class FetchReplyThread implements Runnable, GlobalConstant {
             PreparedStatement replaceReply=connection.prepareStatement(insertSql);
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            String basicUrl = "http://bbs.tianya.cn/post-%s-%s-%d.shtml";
             while (GlobalUtil.fetching && rs.next()){
-                String oldid = rs.getString(columnName_Topic_id);
-                String id = (String.format(oldid,1)).replace("http://bbs.tianya.cn","");
+                String htmlID = rs.getString(columnName_Topic_idForReply);
+                String id = rs.getString(columnName_Topic_id);
+//                String id = (String.format(oldid,1)).replace("http://bbs.tianya.cn","");
                 boolean deleteID = false;
                 int pageCount = 1;
                 //deal first page
-                String firstHtml = HttpClientUtil.getHtmlByUrl(String.format(oldid,1),3);
+                String firstHtml = HttpClientUtil.getHtmlByUrl(String.format(htmlID,1),3);
                 if (firstHtml == null){
                     deleteID = true;
                 }else {
@@ -95,19 +94,19 @@ public class FetchReplyThread implements Runnable, GlobalConstant {
                             String initiateTime = formatter.format(new Date(posttime));
                             System.out.println("initiateTime:"+initiateTime);
 
-                            updateInitiateTime.setString(1, id);
-                            updateInitiateTime.setInt(2, clickCount);
-                            updateInitiateTime.setInt(3, replyCount);
-                            updateInitiateTime.setString(4, initiateTime);
-                            updateInitiateTime.setInt(5, 1);
-                            updateInitiateTime.setString(6, oldid);
+//                            updateInitiateTime.setString(1, id);
+                            updateInitiateTime.setInt(1, clickCount);
+                            updateInitiateTime.setInt(2, replyCount);
+                            updateInitiateTime.setString(3, initiateTime);
+                            updateInitiateTime.setInt(4, 1);
+                            updateInitiateTime.setString(5, id);
                         }
                     }
                 }
 
                 for (int i = 1;i<=pageCount;i++){
                     logger.info("访问【" + id + "】!");
-                    String url = String.format(oldid,i);
+                    String url = String.format(htmlID,i);
 
                     String html = HttpClientUtil.getHtmlByUrl(url);
                     if (html!=null){
@@ -168,6 +167,7 @@ public class FetchReplyThread implements Runnable, GlobalConstant {
 
     public ResultSet selectUnfetched(Connection connection) throws SQLException {
         String querySql = "SELECT "+columnName_Topic_id+
+                ","+columnName_Topic_idForReply+
                 " FROM "+tableName_Topic+" WHERE "
                 +columnName_Topic_state+" IS NULL ORDER BY " + columnName_Topic_replycount;
         PreparedStatement psUpdate=connection.prepareStatement(querySql);

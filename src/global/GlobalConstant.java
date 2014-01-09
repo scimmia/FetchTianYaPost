@@ -42,6 +42,7 @@ public interface GlobalConstant {
     String ColumnName_Topic_initiateTime = "initiateTime";
     String columnName_Topic_state = "state";
     String columnName_Topic_type = "type";
+    String columnName_Topic_idForReply = "idForReply";
 
     String tableName_Reply = "commentPost";
     String columnName_Reply_id = "id";

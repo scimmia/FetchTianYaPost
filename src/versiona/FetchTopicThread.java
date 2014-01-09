@@ -84,8 +84,9 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 +columnName_Topic_id+","
                 +columnName_Topic_title+","
                 +columnName_Topic_replycount+","
-                +columnName_Topic_type
-                +") VALUES(?,?,?,?)";
+                +columnName_Topic_type+","
+                +columnName_Topic_idForReply
+                +") VALUES(?,?,?,?,?)";
         PreparedStatement ps = null;
         Connection connection = GlobalUtil.getConnToDatabase(item);
         if (connection == null){
@@ -103,6 +104,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 ps.setString(2,temp.getTitle());
                 ps.setInt(3, temp.getReplyCount());
                 ps.setString(4,temp.getTopicType());
+                ps.setString(5,temp.getIdForReply());
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -140,7 +142,9 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
                 int replyCount = Integer.parseInt(tr.select("span").last().text());
                 logger.info(url+'\t'+title);
 //                map.put(url.replace("http://bbs.tianya.cn",""),title);
-                set.add(new TopicStruct(url.replace("-1.shtml","-%d.shtml"),title,topicType,replyCount));
+                set.add(new TopicStruct(
+                        url.replace("http://bbs.tianya.cn",""),title,topicType,replyCount
+                        ,url.replace("-1.shtml","-%d.shtml")));
             }
         }
     }

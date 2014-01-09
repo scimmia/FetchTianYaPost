@@ -9,15 +9,24 @@ public class TopicStruct {
     String topicType;
     int replyCount;
     int clickCount;
-
+    String idForReply;
     public TopicStruct() {
     }
 
-    public TopicStruct(String id, String title, String topicType, int replyCount) {
+    public TopicStruct(String id, String title, String topicType, int replyCount,String idForReply) {
         this.id = id;
         this.title = title;
         this.topicType = topicType;
         this.replyCount = replyCount;
+        this.idForReply = idForReply;
+    }
+
+    public String getIdForReply() {
+        return idForReply;
+    }
+
+    public void setIdForReply(String idForReply) {
+        this.idForReply = idForReply;
     }
 
     public String getId() {
