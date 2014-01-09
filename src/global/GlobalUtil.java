@@ -20,16 +20,17 @@ public class GlobalUtil implements GlobalConstant {
     private GlobalUtil() {
     }
     public static String getSelectedItem(){
-        System.out.print("\n请输入抓取板块序号:");
-        for (int i =0;i<itemsName.length;i++){
-            System.out.printf("  %d. %s",i,itemsName[i]);
-        }
-        int selected = SavitchIn.readInt();
-        if (selected<0||selected>=itemsName.length){
-            System.out.print("\n请输入正确的抓取板块序号:");
-            return getSelectedItem();
-        }
-        return items[selected];
+        return items[makeDecision(itemsName)];
+//        System.out.print("\n请输入抓取板块序号:");
+//        for (int i =0;i<itemsName.length;i++){
+//            System.out.printf("  %d. %s",i,itemsName[i]);
+//        }
+//        int selected = SavitchIn.readInt();
+//        if (selected<0||selected>=itemsName.length){
+//            System.out.print("\n请输入正确的抓取板块序号:");
+//            return getSelectedItem();
+//        }
+//        return items[selected];
     }
     public static void initLog4j(String boardName){
         Properties prop = new Properties();
@@ -132,7 +133,12 @@ public class GlobalUtil implements GlobalConstant {
             stringBuilder.append(i+1).append(' ').append(strings[i]).append('\t');
         }
         System.out.println(stringBuilder);
-        return SavitchIn.readInt()-1;
+        int decision = SavitchIn.readInt()-1;
+        if (decision<0 || decision>=strings.length){
+            System.out.print("\n请输入正确的序号:");
+            return makeDecision(strings);
+        }
+        return decision;
     }
 
     public static String[] getTagOptions(String tag){

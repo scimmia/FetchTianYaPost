@@ -100,8 +100,10 @@ public class Main {
         }
     }
     public static void fetchTopic1125(){
-        String item = GlobalUtil.getSelectedItem();
-        System.out.println("请输入开始id");
+        String item =
+//                GlobalConstant.items[GlobalUtil.makeDecision(GlobalConstant.itemsName)];
+                GlobalUtil.getSelectedItem();
+        System.out.println("请输入开始url");
         String id = SavitchIn.readLine();
 
         GlobalUtil.initLog4j("Fetching-" + item);
