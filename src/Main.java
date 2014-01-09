@@ -6,10 +6,10 @@ import fetchtopic.SaveTopicThread;
 import global.GlobalConstant;
 import global.GlobalUtil;
 import global.SavitchIn;
+import versiona.FetchSearchTopicThread;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Main {
 
@@ -122,7 +122,7 @@ public class Main {
         int startPage = SavitchIn.readInt();
         GlobalUtil.initLog4j("Fetching-" +item);
         System.out.println(tag);
-        new Thread(new versiona.FetchTopicThread(item,tag,startPage)).start();
+        new Thread(new FetchSearchTopicThread(item,tag,startPage)).start();
         waitForExit();
     }
 

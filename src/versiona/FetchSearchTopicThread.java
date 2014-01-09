@@ -21,7 +21,7 @@ import java.util.HashSet;
 /**
  * Created by ASUS on 14-1-7.
  */
-public class FetchTopicThread implements Runnable, GlobalConstant {
+public class FetchSearchTopicThread implements Runnable, GlobalConstant {
     Logger logger;
     String item;
     int maxPage = 76;
@@ -34,7 +34,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
     String tag;
     HashSet<TopicStruct> set;
 //    HashMap<String,String> map;
-    public FetchTopicThread(String item, String tag,int startPage) {
+    public FetchSearchTopicThread(String item, String tag, int startPage) {
         this.item = item;
         this.tag = tag;
 //        this.tag = getTag(item);
@@ -46,7 +46,7 @@ public class FetchTopicThread implements Runnable, GlobalConstant {
         this.startPage = startPage;
         set = new HashSet<TopicStruct>();
 //        map = new HashMap<String, String>();
-        logger = Logger.getLogger("versiona.FetchTopicThread"+tag);
+        logger = Logger.getLogger("versiona.FetchSearchTopicThread"+tag);
     }
     String getTag(String str){
         if (str.equals("jiuye")){
